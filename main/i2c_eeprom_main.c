@@ -27,8 +27,8 @@ void app_main(void)
     
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = "cogeco",
-            .password = "Carshampoo123#",
+            .ssid = "WIFI",
+            .password = "PASSWORD",
         },
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
