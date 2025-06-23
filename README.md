@@ -39,7 +39,7 @@
 ## 📷 Concept Design
 ![Screenshot 2025-06-23 145454](https://github.com/user-attachments/assets/f1677878-8b76-4ea0-b57d-ae7d0895d832)
 
-##🧐 ML Model
+## 🧐 ML Model
 
 - Training using real motion data labelled by punch types
 - Random Forest classifier used for initial prototyping
