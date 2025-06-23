@@ -1,14 +1,21 @@
+#include "esp_rom_gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/i2c.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "LSM6DS3.h"
+#include "hal/gpio_types.h"
 #include <math.h>
+#include "led_strip.h"
+#include "sdkconfig.h"
+
 
 
 gyro_bias_t gyro_bias ={0};
 
+
+static led_strip_handle_t led_strip;
 
 uint8_t get_i2c_address(void) {
     gpio_set_direction(SA0_GPIO, GPIO_MODE_INPUT);
@@ -129,7 +136,32 @@ esp_err_t lsm6ds3_write_register(uint8_t addr, uint8_t reg, uint8_t value) {
     );
 }
 
+void init_led_strip()
+{
+    led_strip_config_t strip_config = {
+        .strip_gpio_num = LED_GPIO_PIN,
+        .max_leds = 1,  // Only one LED in the strip
+        .led_pixel_format = LED_PIXEL_FORMAT_GRB,
+        .led_model = LED_MODEL_WS2812,
+        .flags.invert_out = false,
+    };
+
+    led_strip_rmt_config_t rmt_config = {
+        .clk_src = RMT_CLK_SRC_DEFAULT,
+        .resolution_hz = 10 * 1000 * 1000,  // 10 MHz
+        .flags.with_dma = false,
+    };
+
+    ESP_ERROR_CHECK(led_strip_new_rmt_device(&strip_config, &rmt_config, &led_strip));
+    ESP_ERROR_CHECK(led_strip_clear(led_strip));  // Start with LED off
+}
+
 void calib_gyro(uint8_t i2c_addr){
+	    // Turn LED red
+    led_strip_set_pixel(led_strip, 0, 0, 100, 0);  // Red
+    led_strip_refresh(led_strip);
+    gpio_set_level(LED_GPIO_PIN, 1);
+	
 	float sum_x = 0.0f;
 	float sum_y = 0.0f;
 	float sum_z = 0.0f;
@@ -151,4 +183,7 @@ void calib_gyro(uint8_t i2c_addr){
 	gyro_bias.z =  sum_z / CALIBRATION_SAMPLES;
 	
 	ESP_LOGI("CALIBRATION", "Gyro bias: X=%.2f, Y=%.2f, Z=%.2f", gyro_bias.x, gyro_bias.y, gyro_bias.z);
+	
+	gpio_set_level(LED_GPIO_PIN, 0);
+	led_strip_clear(led_strip);
 }

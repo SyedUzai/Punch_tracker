@@ -3,7 +3,7 @@
 
 
 
-#define IMU_QUEUE_LENGTH 1
+#define IMU_QUEUE_LENGTH 10
 #define IMU_TASK_DELAY_MS 20
 
 void create_tasks_queue();

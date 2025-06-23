@@ -22,6 +22,7 @@
 #define I2C_ADDR 0x6B
 #define SA0_GPIO 2
 #define CALIBRATION_SAMPLES 2000
+#define LED_GPIO_PIN 21
 
 typedef struct {
     float x;
@@ -49,6 +50,8 @@ void read_gyro_xl_xyz(uint8_t i2c_addr, float_t *gyro_x, float_t *gyro_y, float_
                       float_t *xl_x, float_t *xl_y, float_t *xl_z);
 
 void calib_gyro(uint8_t i2c_addr);
+
+void init_led_strip();
 
 
 #endif /* MAIN_IMU_LSM6DS3_h_ */

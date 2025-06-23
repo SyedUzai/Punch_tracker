@@ -24,20 +24,10 @@ void udp_client_task(char payload[128])
         vTaskDelete(NULL);
         return;
     }
-    ESP_LOGI(TAG, "Socket created, sending to %s:%d", HOST_IP_ADDR, PORT);
-
-    while (1) {
-        int err = sendto(sock, payload, strlen(payload), 0,
+    
+    sendto(sock, payload, strlen(payload), 0,
                          (struct sockaddr *)&dest_addr, sizeof(dest_addr));
-        if (err < 0) {
-            ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
-        } else {
-            ESP_LOGI(TAG, "Message sent");
-        }
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-
+ 	ESP_LOGI(TAG, "Message sent");
     close(sock);
-    vTaskDelete(NULL);
 }
 

@@ -55,7 +55,7 @@ void create_tasks_queue(){
 	}
 	
 	xTaskCreate(imu_task, "imu_task", 4096, NULL, 5, NULL);
-	xTaskCreate(udp_task, "udp_sender_task", 4096, NULL, 1, NULL);
+	xTaskCreate(udp_task, "udp_sender_task", 4096, NULL, 5, NULL);
 	
 	
 	

@@ -47,6 +47,7 @@ void app_main(void)
     //Initializing Gyro, 250 dps, 416hz high perf
     ESP_ERROR_CHECK(lsm6ds3_write_register(I2C_ADDR, CTRL2_G, 0x6C));
     
+    init_led_strip();
     calib_gyro(I2C_ADDR);
     
     create_tasks_queue();
