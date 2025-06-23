@@ -1,54 +1,71 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
+![Punchtrackconcept](https://github.com/user-attachments/assets/d4f29a7d-c113-4c5a-94e5-febd42e0abbc)| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
 | ----------------- | ----- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 
-# I2C EEPROM example
+PunchTrack
 
-This code demonstrates how to use the I2C master mode to read/write I2C EEPROM.
+PunchTrack is a compact, wrist-worn punch tracking device designed to measure and stream live motion data for real-time punch classification. Built around the ESP32-S3 Zero, it leverages the LSM6DS3 IMU for motion sensing and uses wireless UDP communication to send data to a computer for machine learning inference.
 
-## Overview
+🔧 Hardware Components
 
-This example demonstrates basic usage of I2C driver by reading and writing from a I2C connected eeprom:
+ESP32-S3 Zero – Main MCU with Wi-Fi support
 
-If you have a new I2C application to go (for example, read the temperature data from external sensor with I2C interface), try this as a basic template, then add your own code.
+LSM6DS3 – 6-axis IMU (3-axis accelerometer + 3-axis gyroscope)
 
-## How to use example
+3.65V LiPo Battery – Rechargeable power source
 
-### Hardware Required
+TPS61023 Mini Boost Converter – Boosts battery voltage for stable operation
 
-To run this example, you should have one ESP32, ESP32-S, ESP32-C or ESP32-H based development board as well as EEPROM(s). I2C bus allow use several EEPROMs, and some of the EEPROMs' address are configurable. Some are not, for which you can use 74LS138 to set different EEPROM different slave address(It is also can be used on other types of I2C slaves).
+TP4056 USB Charging Module – Allows safe USB-based battery charging
 
-For some I2C EEPROM slaves, they have A0, A1, A2 pins for address configuration.
-For some I2C slaves, They don't have address configuration pins but have enable pins. For these kind of slave, you can use GPIO pins and external decoder to select which slave you are using.
+🧠 Firmware & Functionality
 
-#### Pin Assignment:
+Developed using ESP-IDF in the Espressif IDE
 
-**Note:** The following pin assignments are used by default, you can change these in the `menuconfig` .
+IMU data is fetched via I2C using burst reads for efficient streaming
 
-|                  | SDA             | SCL           |
-| ---------------- | -------------- | -------------- |
-| ESP I2C Master   | I2C_MASTER_SDA | I2C_MASTER_SCL |
-| EEPROM1          | SDA            | SCL            |
-| EEPROMn          | SDA            | SCL            |
+Data is enqueued and transmitted over UDP sockets to a host computer
 
-For the actual default value of `I2C_MASTER_SDA` and `I2C_MASTER_SCL` see `Example Configuration` in `menuconfig`.
+Python on the host side classifies the data using a trained Random Forest model
 
-**Note:** There's no need to add an external pull-up resistors for SDA/SCL pin, because the driver will enable the internal pull-up resistors.
+Key Concepts Learned
 
-### Build and Flash
+I2C communication and device addressing
 
-Enter `idf.py -p PORT flash monitor` to build, flash and monitor the project.
+FreeRTOS tasks, queues, and real-time data handling
 
-(To exit the serial monitor, type ``Ctrl-]``.)
+Burst reads (multi-byte sensor data fetches)
 
-See the [Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) for full steps to configure and use ESP-IDF to build projects.
+UDP socket programming with ESP32
 
-## Example Output
+Python scripting for network data parsing
 
-```bash
-00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 
-10 11 12 13 14 15 16 17 18
-```
+Real-time ML classification (Random Forest inference)
 
-## Troubleshooting
+📈 Future Plans
 
-(For any technical queries, please open an [issue](https://github.com/espressif/esp-idf/issues) on GitHub. We will get back to you as soon as possible.)
+Replace I2C with SPI for faster data transfer
+
+Design and fabricate a custom PCB for compact integration
+
+Improve model performance with additional data and features
+
+Add OLED or LED display for onboard feedback and stats
+
+📷 Concept Design
+!<?xml version="1.0" encoding="utf-8"?><Error><Code>AuthenticationFailed</Code><Message>Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.
+RequestId:7aba9342-b01e-008a-7170-e49c89000000
+Time:2025-06-23T18:52:56.9962309Z</Message><AuthenticationErrorDetail>Signed expiry time [Mon, 23 Jun 2025 06:15:51 GMT] must be after signed start time [Mon, 23 Jun 2025 18:52:56 GMT]</AuthenticationErrorDetail></Error>[Uploading Punchtrackconcept.png…]()
+
+📁 Repo Structure
+
+/firmware/         # ESP-IDF source code and FreeRTOS tasks
+/python_client/    # Python socket listener and classifier script
+/docs/             # Design diagrams, model performance, etc.
+
+🧐 ML Model
+
+Trained using real motion data labeled by punch types
+
+Random Forest classifier used for initial prototyping
+
+Future exploration may include neural networks for improved accuracy
