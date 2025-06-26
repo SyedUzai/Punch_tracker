@@ -18,7 +18,7 @@
 - Developed using **ESP-IDF** in the **Espressif IDE**
 - IMU data is fetched via **I2C** using burst reads for efficient streaming
 - Data is enqueued and transmitted over **UDP sockets** to a host computer
-- Python on the host side classifies the data using a **trained Random Forest model**
+- Python on the host side classifies the data using heuristic conditions, later will use a **trained Random Forest model**
 
 ### Key Concepts Learned
 
