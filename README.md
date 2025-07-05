@@ -3,7 +3,7 @@
 
 # PunchTrack
 
-**PunchTrack** is a compact, wrist-worn punch tracking device designed to measure and stream live motion data for real-time punch classification. Built around the **ESP32-S3 Zero**, it utilizes the **LSM6DS3 IMU** for motion sensing and employs wireless UDP communication to transmit data to a computer for machine learning inference.
+**PunchTrack** is a compact, wrist-worn punch-tracking device designed to measure and stream live motion data for real-time punch classification. Built around the **ESP32-S3 Zero**, it utilizes the **LSM6DS3 IMU** for motion sensing and employs wireless UDP communication to transmit data to a computer for machine learning inference.
 
 ## 🔧 Hardware Components
 
@@ -38,9 +38,10 @@
 
 ## 📷 Concept Design
 ![Screenshot 2025-06-23 145454](https://github.com/user-attachments/assets/f1677878-8b76-4ea0-b57d-ae7d0895d832)
+## First Prototype
+![IMG_1685](https://github.com/user-attachments/assets/5626580b-5eb4-46ae-8704-dde0c775738a)
 
 ## 🧐 ML Model
 
 - Training using real motion data labelled by punch types
 - Random Forest classifier used for initial prototyping
-- Future exploration may include neural networks for improved accuracy
